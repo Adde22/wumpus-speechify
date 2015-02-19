@@ -8,4 +8,5 @@ Dependencies:
 	<li><a href="https://pypi.python.org/pypi/SpeechRecognition/">Python Speech Recoginition using the Google API</a></li>
 	<li><a href="http://www.portaudio.com">Port Audio</a></li>
 	<li><a href="https://xiph.org/flac/">FLAC (Free Lossless Audio Codec)</a></li>
+	<li><a href="https://pythonhosted.org/pyobjc/">PyObjC (Mac)</a></li>
 </ul>
