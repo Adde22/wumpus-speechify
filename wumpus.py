@@ -68,7 +68,7 @@ class Room():
         output("\nYou are in room number " + str(self.__roomNr) + "."
                 "From here, you can get to the following rooms:"
                 "East: " + str(self.__neighbours["E"]) + ". West: " + str(self.__neighbours["W"]) +
-                ". North: " + str(self.__neighbours["N"]) + ". South: " + str(self.__neighbours["S"] +"."))
+                ". North: " + str(self.__neighbours["N"]) + ". South: " + str(self.__neighbours["S"]) + ".")
         for direction in self.__neighbours:
             self.senseTraps(direction)
 
@@ -555,10 +555,10 @@ def showInstructions():
 
 def output(text):
     print(text)
-    say(text)
+    say(text, True)
 
 def recognize(message, validInputs):
-    say(message)
+    say(message, False)
     return getUserInput(message, validInputs)
 
 def strip(text):
@@ -567,9 +567,12 @@ def strip(text):
     text = text.replace("~", "")
     return text
 
-def say(text):
-    text = strip(text)
-    thread = subprocess.Popen(["say","-v","Daniel","\"" + text + "\""], stdout=subprocess.PIPE)
+def say(text, blocking=False):
+    if blocking:
+        os.system("say -v Daniel \"" + strip(text) + "\"")
+    else:
+        proc = subprocess.Popen(["say","-v","Daniel","\"" + strip(text)], stdout=subprocess.PIPE)    
+    
 
 
 
@@ -579,13 +582,13 @@ def main():
 
     while True:
         output("-----------------------------------------------------\n"
-              "~ Welcome to 'Wumpus', a text-based adventure game. ~\n"
-              "  What do you want to do?\n"
+              "~ Welcome to 'Wumpus', a text-based adventure game. ~\n")
+        
+        userInput = recognize("  What do you want to do?\n"
               "          Start a new game,\n"
               "          start a test game,\n"
-              "          or exit the program.")
-        
-        userInput = recognize("          ", ["A", "B", "C"])
+              "          or exit the program.\n"
+              "          ", ["A", "B", "C"])
 
         if userInput == "A":
             showInstructions()
