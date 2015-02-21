@@ -209,7 +209,7 @@ class Game():
     def requestDifficulty(self):
         """ lets the user choose a difficulty.
     CHANGES self.__difficulty. """
-        return recognize("\nChoose difficulty:\nEasy, normal or hard.\n", ["E", "N", "H"])
+        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["E", "N", "H"])
         
     def moveWumpus(self):
         """ lets Wumpus move around the tunnels if difficulty = hard. Removes bats in Wumpus' room. """
@@ -542,19 +542,18 @@ def showInstructions():
     output("-----------------------------------------------------\n\n"
           "You are in the tunnels beneath KTH where the greedy monster Wumpus dwells.\n"
           "The tunnels are made up of 20 rooms that are connected by narrow passageways.\n"
-          "You can move east, west, north or south from one room to the next.\n"
-          "However, there are traps lurking around every corner - some rooms contain\n"
-          "bottomless pits that will swallow you up. Others are home to bats, which will\n"
-          "abduct you and drop you in a random room.\n"
-          "Wumpus lives in one of the rooms and will eat you as soon as he notices you.\n"
+          "You can move around in the maze,,\n"
+          "However, there are traps lurking around every corner. Some rooms contain\n"
+          "bottomless pits, that will swallow you up. Others are home to bats, which will\n"
+          "abduct you and drop you in a random room,,\n"
+          "Wumpus lives in one of the rooms and will eat you as soon as he notices you,,\n"
           "Luckily you can sense from the adjacent rooms, if there is a draft of air from\n"
           "a bottomless pit, the sound of flapping bat wings or the smell of Wumpus' foul\n"
-          "breath.\n"
+          "breath,,\n"
           "\n"
           "To win the game, you have to shoot Wumpus with your bow and arrows.\n"
           "Arrows can fly through at most 3 rooms and you can change their direction after\n"
-          "every room. Remember that the tunnels are layed out in unexpected ways.\n"
-          "You might accidentally shoot yourself...\n"
+          "every room. But be careful not to accidentally shoot yourself,,\n"
           "You have 5 arrows. Good luck!")
 
 
