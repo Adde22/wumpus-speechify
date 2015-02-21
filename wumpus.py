@@ -408,12 +408,17 @@ class TestGame():
         
         if movementType == "move":
             prompt = "Where do you want to go? East, west, north or south?"
+            sound = "steps"
         elif movementType == "shoot1":
             prompt = "Which direction do you want to shoot in? East, west, north or south?"
+            sound = "arrow"
         elif movementType == "shoot2":
             prompt = "Which way should it fly? East, west, north or south?"
+            sound = "arrow"
 
-        return recognize(prompt, ["E", "W", "N", "S"])
+        userInput = recognize(prompt, ["E", "W", "N", "S"])
+        play(sound)
+        return userInput
     
     def move(self):
         """ lets the user move around the labyrinth.
@@ -562,7 +567,6 @@ def showInstructions():
 
 def output(text):
     #print(text)
-    sound()
     say(text, True)
 
 def recognize(message, validInputs):
@@ -582,9 +586,10 @@ def say(text, blocking=False):
         global proc 
         proc = subprocess.Popen(["say","-v","Daniel","\"" + strip(text)], stdout=subprocess.PIPE)    
     
-def sound():
-    sound = pyglet.resource.media('sfx/steps.wav', streaming=False)
-    sound.play()
+def play(sound):
+    os.system("afplay  sfx/" + sound + ".wav")
+    #sfx = pyglet.resource.media("sfx/" + sound + ".wav", streaming=False)
+    #sfx.play()
 
 
 ################################################################################### MAIN #######
