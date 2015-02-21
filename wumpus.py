@@ -65,10 +65,10 @@ class Room():
 
     def showInfo(self):
         """ outputs information about the room and its neighbours. """
-        output("\nYou are in room number " + str(self.__roomNr) + "."
-                "From here, you can get to the following rooms:"
-                "East: " + str(self.__neighbours["E"]) + ". West: " + str(self.__neighbours["W"]) +
-                ". North: " + str(self.__neighbours["N"]) + ". South: " + str(self.__neighbours["S"]) + ".")
+        output("\nYou are in room number " + str(self.__roomNr) + ". ")
+                #"From here, you can get to the following rooms:"
+                #"East: " + str(self.__neighbours["E"]) + ". West: " + str(self.__neighbours["W"]) +
+                #". North: " + str(self.__neighbours["N"]) + ". South: " + str(self.__neighbours["S"]) + ".")
         for direction in self.__neighbours:
             self.senseTraps(direction)
 
@@ -426,7 +426,10 @@ class TestGame():
         counter = 1
         arrowRoom = self.__currentRoom.getNeighbour(direction)
         while arrowRoom.getTrap() != "wumpus" and counter < 3 and arrowRoom != self.__currentRoom:
-            output("\nThe arrow has power for " + str(3 - counter) + " more room(s).")
+            if (3 - counter) == 1:
+                output("\nThe arrow has power for " + str(3 - counter) + " more room.")
+            else:
+                output("\nThe arrow has power for " + str(3 - counter) + " more rooms.")
             counter += 1
             direction = self.inputDirection("shoot2")
             arrowRoom = arrowRoom.getNeighbour(direction)
@@ -517,17 +520,21 @@ def getUserInput(message, validInputs):
     """ takes input from the user for the main loop.
     RETURNS userInput. """
     try:
-        userInput = input(message).upper()
+        userInput = input().upper()
+        #userInput = input(message).upper()
+        proc.kill()
         while not userInput in validInputs:
             output("Please give a valid answer.")
-            userInput = input(message).upper()
+            say(message, False)
+            #userInput = input(message).upper()
+            userInput = input().upper()
         return userInput
 
     except KeyboardInterrupt:
-        output("\nYou pressed Ctrl+C.\n")
+        #output("\nYou pressed Ctrl+C.\n")
         exit()
     except EOFError:
-        output("\nYou pressed Ctrl+D.\n")
+        #output("\nYou pressed Ctrl+D.\n")
         exit()
 
 def showInstructions():
@@ -554,7 +561,7 @@ def showInstructions():
 ################################################################################### SPEECH #####
 
 def output(text):
-    print(text)
+    #print(text)
     say(text, True)
 
 def recognize(message, validInputs):
@@ -571,6 +578,7 @@ def say(text, blocking=False):
     if blocking:
         os.system("say -v Daniel \"" + strip(text) + "\"")
     else:
+        global proc 
         proc = subprocess.Popen(["say","-v","Daniel","\"" + strip(text)], stdout=subprocess.PIPE)    
     
 
@@ -582,11 +590,11 @@ def main():
 
     while True:
         output("-----------------------------------------------------\n"
-              "~ Welcome to 'Wumpus', a text-based adventure game. ~\n")
+              "~ Welcome to 'Wumpus', a speech-controlled adventure game. ~\n")
         
         userInput = recognize("  What do you want to do?\n"
               "          Start a new game,\n"
-              "          start a test game,\n"
+              #"          start a test game,\n"
               "          or exit the program.\n"
               "          ", ["A", "B", "C"])
 
@@ -600,8 +608,8 @@ def main():
             newGame.runGame()
 
         elif userInput == "C":
-            input("-----------------------------------------------------\n"
-                  "Press enter to exit.")
+            #input("-----------------------------------------------------\n"
+            #      "Press enter to exit.")
             break
 
 main()
