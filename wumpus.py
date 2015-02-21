@@ -10,6 +10,7 @@ import random
 import os
 import subprocess
 import signal
+import pyglet
 
 ############################################################################### CLASSES #######
 
@@ -561,6 +562,7 @@ def showInstructions():
 
 def output(text):
     #print(text)
+    sound()
     say(text, True)
 
 def recognize(message, validInputs):
@@ -580,7 +582,9 @@ def say(text, blocking=False):
         global proc 
         proc = subprocess.Popen(["say","-v","Daniel","\"" + strip(text)], stdout=subprocess.PIPE)    
     
-
+def sound():
+    sound = pyglet.resource.media('sfx/steps.wav', streaming=False)
+    sound.play()
 
 
 ################################################################################### MAIN #######

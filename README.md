@@ -9,4 +9,5 @@ Dependencies:
 	<li><a href="http://www.portaudio.com">Port Audio</a></li>
 	<li><a href="https://xiph.org/flac/">FLAC (Free Lossless Audio Codec)</a></li>
 	<li><a href="https://pythonhosted.org/pyobjc/">PyObjC (Mac)</a></li>
+	<li><a href="http://www.pyglet.org/">PyGlet</a></li>
 </ul>
