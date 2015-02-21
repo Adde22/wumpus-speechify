@@ -50,6 +50,7 @@
 ############################################################################### MODULES #######
 
 import random
+import os
 
 ############################################################################### CLASSES #######
 
@@ -105,10 +106,10 @@ class Room():
 
     def showInfo(self):
         """ outputs information about the room and its neighbours. """
-        output("\nYou are in room number " + str(self.__roomNr) + ".")
-        output("From here, you can get to the following rooms:")
-        output("East: " + str(self.__neighbours["E"]) + " | West: " + str(self.__neighbours["W"]) +
-              " | North: " + str(self.__neighbours["N"]) + " | South: " + str(self.__neighbours["S"]))
+        output("\nYou are in room number " + str(self.__roomNr) + "."
+                "From here, you can get to the following rooms:"
+                "East: " + str(self.__neighbours["E"]) + ". West: " + str(self.__neighbours["W"]) +
+                ". North: " + str(self.__neighbours["N"]) + ". South: " + str(self.__neighbours["S"] +"."))
         for direction in self.__neighbours:
             self.senseTraps(direction)
 
@@ -150,7 +151,10 @@ class Player():
     def __str__(self):
         """ outputs information about the player.
     RETURNS arrows as a string. """
-        rep = "You have " + str(self.__arrows) + " arrow(s) left."
+        if self.__arrows == 1:
+            rep = "You have " + str(self.__arrows) + " arrow left."
+        else:
+            rep = "You have " + str(self.__arrows) + " arrows left."
         return rep
 
     def useArrow(self):
@@ -246,7 +250,7 @@ class Game():
     def requestDifficulty(self):
         """ lets the user choose a difficulty.
     CHANGES self.__difficulty. """
-        return getUserInput("\nChoose difficulty:\nEasy (E) | Normal (N) | Hard (H)\n", ["E", "N", "H"])
+        return getUserInput("\nChoose difficulty:\nEasy, normal or hard.\n", ["E", "N", "H"])
         
     def moveWumpus(self):
         """ lets Wumpus move around the tunnels if difficulty = hard. Removes bats in Wumpus' room. """
@@ -274,11 +278,11 @@ class Game():
     RETURNS E, W, N or S as a string. """
         
         if movementType == "move":
-            prompt = "Where do you want to go? (E, W, N, S) "
+            prompt = "Where do you want to go? East, west, north or south? "
         elif movementType == "shoot1":
-            prompt = "Which direction do you want to shoot in? (E, W, N, S) "
+            prompt = "Which direction do you want to shoot in? East, west, north or south? "
         elif movementType == "shoot2":
-            prompt = "Which way should it fly? (E, W, N, S) "
+            prompt = "Which way should it fly? East, west, north or south?"
 
         return getUserInput(prompt, ["E", "W", "N", "S"])
     
@@ -294,7 +298,10 @@ class Game():
         counter = 1
         arrowRoom = self.__currentRoom.getNeighbour(direction)
         while arrowRoom.getTrap() != "wumpus" and counter < 3 and arrowRoom != self.__currentRoom:
-            output("\nThe arrow has power for " + str(3 - counter) + " more room(s).")
+            if (3 - counter) == 1:
+                output("\nThe arrow has power for " + str(3 - counter) + " more room.")
+            else:
+                output("\nThe arrow has power for " + str(3 - counter) + " more rooms.")
             counter += 1
             direction = self.inputDirection("shoot2")
             arrowRoom = arrowRoom.getNeighbour(direction)
@@ -316,7 +323,7 @@ class Game():
         self.__currentRoom = random.choice(self.__listOfRooms)
         output("\nBats live in this room! You feel their wings touching your cheek and suddenly\n"
               "lose ground under your feet.\n"
-              "After a short trip through the air, the bats drop you in room nr. "
+              "After a short trip through the air, the bats drop you in room number "
               + str(self.__currentRoom) + ".")
 
     def endGame(self, trapType=""):
@@ -328,31 +335,31 @@ class Game():
                   "You are sucked into it in a powerful current of air.\n"
                   "As you fall into the darkness, you come to the realisation that\n"
                   "trespassing on KTH property to hunt monsters\n"
-                  "might not have been such a great idea after all...")
-            output("\nGAME OVER\n\n")
+                  "might not have been such a great idea after all..."
+                  "\nGAME OVER\n\n")
 
         elif trapType == "wumpus":
             output("\nWumpus is in this room!\n"
                   "You try to reach behind your back to grasp an arrow and shoot the monster, \n"
                   "but accidentally spill the contents of your quiver as you twist and bend.\n"
                   "The sound of the arrows clattering on the floor alerts Wumpus to your presence.\n"
-                  "He looks pretty hungry...")
-            output("\nGAME OVER\n\n")
+                  "He looks pretty hungry..."
+                  "\nGAME OVER\n\n")
 
         elif trapType == "suicide":
-            output("\nCongratulations, you managed to shoot yourself with bow and arrow.")
-            output("\nGAME OVER\n\n")
+            output("\nCongratulations, you managed to shoot yourself with bow and arrow."
+                    "\nGAME OVER\n\n")
 
         elif trapType == "noArrows":
             output("\nYou hear your last arrow hit a wall a couple of rooms away.\n"
-                  "How are you going to defeat Wumpus now, with your bare hands?")
-            output("\nGAME OVER\n\n")
+                  "How are you going to defeat Wumpus now, with your bare hands?"
+                    "\nGAME OVER\n\n")
 
         else:
             output("\nYour arrow found Wumpus! It doesn't seem to like him, judging from the way\n"
                   "it finds its path right to the monster's heart all on its own. Good riddance!\n"
-                  "Now the only thing left to do is to get out of here!\nThat can't be too hard, right?...")
-            output("\nYOU WON!!! Go you!\n\n")
+                  "Now the only thing left to do is to get out of here!\nThat can't be too hard, right?..."
+                    "\nYOU WON!!! Go you!\n\n")
 
     def runGame(self):
         """ lets the user interact with the program. """
@@ -360,7 +367,7 @@ class Game():
         while self.__running:
             self.__currentRoom.showInfo()
 
-            action = getUserInput("\nDo you want to move (M) or shoot an arrow (S)? ", ["M", "S"])
+            action = getUserInput("\nDo you want to move or shoot an arrow? ", ["M", "S"])
                 
             if action == "M":
                 self.move()
@@ -440,11 +447,11 @@ class TestGame():
     RETURNS E, W, N or S as a string. """
         
         if movementType == "move":
-            prompt = "Where do you want to go? (E, W, N, S) "
+            prompt = "Where do you want to go? East, west, north or south?"
         elif movementType == "shoot1":
-            prompt = "Which direction do you want to shoot in? (E, W, N, S) "
+            prompt = "Which direction do you want to shoot in? East, west, north or south?"
         elif movementType == "shoot2":
-            prompt = "Which way should it fly? (E, W, N, S) "
+            prompt = "Which way should it fly? East, west, north or south?"
 
         return getUserInput(prompt, ["E", "W", "N", "S"])
     
@@ -494,31 +501,31 @@ class TestGame():
                   "You are sucked into it in a powerful current of air.\n"
                   "As you fall into the darkness, you come to the realisation that\n"
                   "trespassing on KTH property to hunt monsters\n"
-                  "might not have been such a great idea after all...")
-            output("\nGAME OVER\n\n")
+                  "might not have been such a great idea after all..."
+                    "\nGAME OVER\n\n")
 
         elif trapType == "wumpus":
             output("\nWumpus is in this room!\n"
                   "You try to reach behind your back to grasp an arrow and shoot the monster, \n"
                   "but accidentally spill the contents of your quiver as you twist and bend.\n"
                   "The sound of the arrows clattering on the floor alerts Wumpus to your presence.\n"
-                  "He looks pretty hungry...")
-            output("\nGAME OVER\n\n")
+                  "He looks pretty hungry..."
+                    "\nGAME OVER\n\n")
 
         elif trapType == "suicide":
-            output("\nCongratulations, you managed to shoot yourself with bow and arrow.")
-            output("\nGAME OVER\n\n")
+            output("\nCongratulations, you managed to shoot yourself with bow and arrow."
+                    "\nGAME OVER\n\n")
 
         elif trapType == "noArrows":
             output("\nYou hear your last arrow hit a wall a couple of rooms away.\n"
-                  "How are you going to defeat Wumpus now, with your bare hands?")
-            output("\nGAME OVER\n\n")
+                  "How are you going to defeat Wumpus now, with your bare hands?"
+                    "\nGAME OVER\n\n")
 
         else:
             output("\nYour arrow found Wumpus! It doesn't seem to like him, judging from the way\n"
                   "it finds its path right to the monster's heart all on its own. Good riddance!\n"
-                  "Now the only thing left to do is to get out of here!\nThat can't be too hard, right?...")
-            output("\nYOU WON!!! Go you!\n\n")
+                  "Now the only thing left to do is to get out of here!\nThat can't be too hard, right?..."
+                    "\nYOU WON!!! Go you!\n\n")
 
     def runGame(self):
         """ lets the user interact with the program. """
@@ -526,7 +533,7 @@ class TestGame():
         while self.__running:
             self.__currentRoom.showInfo()
 
-            action = getUserInput("\nDo you want to move (M) or shoot an arrow (S)? ", ["M", "S"])
+            action = getUserInput("\nDo you want to move or shoot an arrow? ", ["M", "S"])
                 
             if action == "M":
                 self.move()
@@ -569,7 +576,7 @@ def getUserInput(message, validInputs):
 def showInstructions():
     """ outputs information about the game's story and how to play. """
     output("-----------------------------------------------------\n\n"
-          "You are in the tunnels beneath KTH where the greedy monster Wumpus lives.\n"
+          "You are in the tunnels beneath KTH where the greedy monster Wumpus dwells.\n"
           "The tunnels are made up of 20 rooms that are connected by narrow passageways.\n"
           "You can move east, west, north or south from one room to the next.\n"
           "However, there are traps lurking around every corner - some rooms contain\n"
@@ -592,12 +599,11 @@ def showInstructions():
 def main():
 
     while True:
-        output("-----------------------------------------------------\n"
-              "~ Welcome to 'Wumpus', a text-based adventure game ~\n"
+        output("Welcome to 'Wumpus', a text-based adventure game.\n"
               "  What do you want to do?\n"
-              "          Start a new game (a)\n"
-              "          Start a test game (b)\n"
-              "          Exit the program (c)")
+              "          Start a new game,\n"
+              "          start a test game,\n"
+              "          or exit the program.")
         
         userInput = getUserInput("          ", ["A", "B", "C"])
 
