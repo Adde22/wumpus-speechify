@@ -1,4 +1,4 @@
-r01_01:
+﻿r01_01:
 
 Start/exit:
 „Eh I will start a new game"
@@ -91,3 +91,172 @@ Move or shoot?
 E, W, N or S?
 "East"
 
+
+
+r01_04:
+Hi! Please tell me when you're ready
+"now"
+
+Hi! Please tell me when you're ready
+"NOW!"
+
+Start/exit:
+"Start a new game"
+
+Mode:
+"easy"
+
+#9, D
+move/shoot
+"move"
+E, W, N or S?
+"north"
+
+#5, D, D, B
+move/shoot
+"move"
+E, W, N or S?
+"west"
+
+death: pit
+
+Do you want to play again?
+"yes"
+
+Start/exit:
+"start a new game"
+
+Mode:
+"easy"
+
+#6, B
+move/shoot
+"shoot an arrow"
+E, W, N or S?
+"west"
+E, W, N or S?
+"west"
+E, W, N or S?
+"north"
+
+move/shoot
+- shoot an arrow
+E, W, N or S?
+"east"
+E, W, N or S?
+"[interr.] east ... east"
+E, W, N or S?
+"south"
+
+move/shoot?
+"move"
+E, W, N or S?
+"north"
+
+#8
+move/shoot?
+"move"
+E, W, N or S?
+"north"
+
+#19, D, D, B
+move/shoot?
+"move"
+E, W, N or S?
+"north"
+
+death: pit
+
+
+
+r01_05:
+Hi! Please tell me when you're ready.
+"I'm ready"
+
+Start/exit:
+"start a new game"
+
+Mode:
+"easy"
+
+#18; B
+move/shoot?
+"move"
+E, W, N or S?
+"east"
+
+#5, B, W
+move/shoot?
+"move"
+E, W, N or S?
+"north"
+
+death: wumpus
+
+Do you want to play again?
+*laugh* "no thanks"
+
+
+
+r01_06
+Hi! Please tell me when you're ready.
+"Ready"
+
+Start/exit:
+"start a new game"
+
+Mode:
+"easy"
+
+#15, B
+move/shoot?
+"I want to move"
+E, W, N or S?
+"south"
+
+#4, B, B, B
+move/shoot?
+[pause] "I want to move"
+E, W, N or S?
+"south"
+
+bat abduction --> room nr.5
+death: pit
+
+Do you want to play again?
+"yes"
+
+Q1
+"start a new game"
+
+Q2
+"easy"
+
+#16, D, W
+move/shoot?
+"I want to shoot an arrow"
+E, W, N or S?
+"north"
+E, W, N or S?
+"north"
+E, W, N or S?
+"south"
+
+move/shoot?
+"move"
+E, W, N or S?
+"[interr.] north ... north"
+
+#17, D
+move/shoot?
+"move"
+E, W, N or S?
+"north"
+
+#14, D, B
+move/shoot?
+"move"
+E, W, N or S?
+"west"
+
+death: pit
