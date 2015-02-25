@@ -1,0 +1,93 @@
+r01_01:
+
+Start/exit:
+„Eh I will start a new game"
+
+Mode
+„Eh normal"
+
+#11, D, B, W
+Move or shoot an arrow?
+„Move"
+
+E, W, N or S
+„Eeeeh north"
+
+(Game over!
+"I'm dead!")
+
+
+r01_02:
+
+Start/exit:
+"Start a new game"
+
+Mode:
+„Easy"
+
+#9, D, D, W
+Move or shoot?
+"[pause] I want to move"
+
+E, W, N or S?
+„Eeeh north"
+
+Game over!
+„Hahaha noo"
+
+Do you want to play again?
+„No"
+
+
+r01_03:
+
+Start/exit:
+„New game"
+
+Mode:
+„Normal"
+
+#12, D, D
+Move or shoot?
+"No [pause] no"
+
+Move or shoot?
+"Aaah, move"
+
+E, W, N or S?
+„North"
+
+#18, B, B
+Move or shoot?
+"Yes, move aah shoot an arrow"
+
+E, W, N or S?
+„North"
+
+#12, D, D
+Move or shoot?
+"Move"
+
+E, W, N or S?
+"North"
+
+#18, B, B
+Move or shoot?
+"Shoot an arrow"
+
+E, W, N or S?
+"East"
+
+E, W, N or S?
+"North"
+
+E, W, N or S?
+"East"
+
+#18, B, B
+Move or shoot?
+"Move"
+
+E, W, N or S?
+"East"
+
