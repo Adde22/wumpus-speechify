@@ -1,0 +1,74 @@
+Wumpus Questionnaire Evaluation
+
+Age:
+29 (1), 26 (2), 26 (3), 25 (4), 28 (5), 32 (6)
+
+How often do you use speech interaction systems, such as Siri or Google Now?
+- Never: (1), (3), (4), (5)
+- Rarely: (2), (6)
+- Regularly: 
+- Every day: 
+
+How often do you play digital games (computer games, video games, phone apps, etc.)?
+- Never: 
+- Rarely: (4), (5)
+- Regularly: (1), (2)
+- Every day: (3), (6)
+
+Overall impression of the system: 
+2.0, 5.0, 4.7, 3.0, 2.3, 4.0
+
+The instructions were … 
+5.0, 1.0, 1.9, 1.0, 4.7, 3.0
+
+You understood how to play the game:
+1.0, 5.0, 4.1, 5.0, 1.3, 3.6
+
+How well did you feel understood by the system?
+5.0, 6.0, 4.5, 5.0, 4.5, 5.0
+
+The system talked …
+1.0, 2.0, 3.3, 3.0, 2.1, 3.6
+
+How well was the system acoustically intelligible?
+3.0, 4.0, 4.1, 3.0, 3.9, 4.0
+
+The system reacted …
+1.0, 1.0, 3.1, 5.0, 1.5, ,
+
+The system reacted … 
+3.0, 3.0, 3.1, 3.0, 2.9, 3.0
+
+The system utterances were … 
+1.0, , 2.7, 3.0, 2.9, ,
+
+The system's voice was …
+5.0, 1.0, 3.5, 5.0, 4.1, 3.4
+
+You would have expected more help from the system.
+2.0, 3.0, 2.7, 2.0, 1.3, 2.5
+
+You enjoyed the system interaction.
+2.0, 1.0, , 3.0, 2.9, 1.7
+
+Which characteristics of the system did you like best?
+- Understanding me. (1)
+- That you have to use your imagination to actually play the game. (1)
+- The description of the environment, it was fun / comic. (2)
+- I was impressed by how fluent it seemed. (3)
+- Possibility to adapt after each move, feeling "in control" of the story. (4)
+- The system understood me. (5)
+
+Which characteristics of the system disturbed you mostly? 
+- As a not-native English speaker I thought the speed was slightly fast and in combination with the pronunciation it was a bit hard to follow sometimes (1)
+- It was short, I wanted to play more (2)
+- That the same phrase always had the same intonation. (3)
+- Repeated commands -> the system wouldn't adapt if I voice my choice before the instructions were over. (4)
+- I didn't understand what to do. Partly because of the vocabulary but also because I didn't remember anymore while the game was on. (5)
+- un-human voice. (6)
+
+Do you have any proposals for system improvement?
+- Possibly to hear the instructions again. (1)
+- I though I understood the game, but since I died so fast I probably didn't. I want to know why. (1)
+- It might be good if the system could recognize mumbling and not try to extract text from it. (3)
+- See above: Make the system adapt based on voice commands spoken during the instructions -> makes it more speedy and less emitter / transmitter only. (4)- Ask for repeating last message. (6)
