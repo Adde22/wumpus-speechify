@@ -15,40 +15,40 @@ How often do you play digital games (computer games, video games, phone apps, et
 - Regularly: (1), (2)
 - Every day: (3), (6)
 
-Overall impression of the system: 
+Overall impression of the system: 3.5 (avg)
 2.0, 5.0, 4.7, 3.0, 2.3, 4.0
 
-The instructions were … 
+The instructions were … 2.77 (avg)
 5.0, 1.0, 1.9, 1.0, 4.7, 3.0
 
-You understood how to play the game:
+You understood how to play the game: 3.34 (avg)
 1.0, 5.0, 4.1, 5.0, 1.3, 3.6
 
-How well did you feel understood by the system?
+How well did you feel understood by the system? 5.0 (avg)
 5.0, 6.0, 4.5, 5.0, 4.5, 5.0
 
-The system talked …
+The system talked … 2.5 (avg)
 1.0, 2.0, 3.3, 3.0, 2.1, 3.6
 
-How well was the system acoustically intelligible?
+How well was the system acoustically intelligible? 3.67 (avg)
 3.0, 4.0, 4.1, 3.0, 3.9, 4.0
 
-The system reacted …
-1.0, 1.0, 3.1, 5.0, 1.5, ,
+The system reacted … 2.32 (avg)
+1.0, 1.0, 3.1, 5.0, 1.5, 
 
-The system reacted … 
+The system reacted … 3.0 (avg)
 3.0, 3.0, 3.1, 3.0, 2.9, 3.0
 
-The system utterances were … 
+The system utterances were … 2.4 (avg)
 1.0, , 2.7, 3.0, 2.9, ,
 
-The system's voice was …
+The system's voice was … 3.67 (avg)
 5.0, 1.0, 3.5, 5.0, 4.1, 3.4
 
-You would have expected more help from the system.
+You would have expected more help from the system. 2.25 (avg)
 2.0, 3.0, 2.7, 2.0, 1.3, 2.5
 
-You enjoyed the system interaction.
+You enjoyed the system interaction. 2.12 (avg)
 2.0, 1.0, , 3.0, 2.9, 1.7
 
 Which characteristics of the system did you like best?
