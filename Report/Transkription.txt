@@ -104,7 +104,7 @@ Start/exit:
 "Start a new game"
 
 Mode:
-- easy
+"easy"
 
 #9, D
 move/shoot
