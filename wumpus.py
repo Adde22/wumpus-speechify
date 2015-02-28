@@ -162,7 +162,7 @@ class Game():
                 room.addBats()
             random.choice(self.__listOfRooms[8:]).addWumpus()
 
-        elif self.__difficulty == "D":
+        elif self.__difficulty == "H":
             for room in self.__listOfRooms[0:5]:
                 room.addPit()
             for room in self.__listOfRooms[5:12]:
@@ -213,7 +213,7 @@ class Game():
     def requestDifficulty(self):
         """ lets the user choose a difficulty.
     CHANGES self.__difficulty. """
-        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["E", "N", "D"])
+        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["E", "N", "H"])
         
     def moveWumpus(self):
         """ lets Wumpus move around the tunnels if difficulty = hard. Removes bats in Wumpus' room. """
@@ -239,23 +239,17 @@ class Game():
     def inputDirection(self, movementType):
         """ lets the user input a direction and shows fitting text. Handles errors.
     RETURNS E, W, N or S as a string. """
-        
 
         if movementType == "move":
+            prompts = ["Where would you like to go?,,", "Which direction do you want to go?,,", "Which path do you want to take?,,", "Which way do you want to go?,,", "Where do you want to go?,,", ]
+            prompt = random.choice(prompts)
             if self.__directionCounter < 3 and self.__firstTime:
-                prompt = "Where do you want to go? East, west, north or south?"
-            else:
-                prompt = "Where do you want to go?"
-        elif movementType == "shoot1":
+                prompt += "\nEast, west, north or south?"
+        elif movementType == "shoot":
+            prompts = ["Which way should the arrow fly?,,", "Which direction do you want to shoot in?,,", "Which way do you want to turn your bow?,,", "Which direction would you like to shoot in?,,", "Which way would you like to turn your bow?,,"]
+            prompt = random.choice(prompts)
             if self.__directionCounter < 3 and self.__firstTime:
-                prompt = "Which direction do you want to shoot in? East, west, north or south?"
-            else:
-                prompt = "Which direction do you want to shoot in?"
-        elif movementType == "shoot2":
-            if self.__directionCounter < 3 and self.__firstTime:
-                prompt = "Which way should it fly? East, west, north or south?"
-            else:
-                prompt = "Which way should it fly?"
+                prompt += "\nEast, west, north or south?"
 
         self.__directionCounter += 1
 
@@ -294,7 +288,7 @@ class Game():
             output("Arrows can fly through at most 3 rooms and you can change their direction after\n"
                     "every room. But be careful not to accidentally shoot yourself,,\n")
             self.__firstArrow = False
-        direction = self.inputDirection("shoot1")
+        direction = self.inputDirection("shoot")
         counter = 1
         arrowRoom = self.__currentRoom.getNeighbour(direction)
         while arrowRoom.getTrap() != "wumpus" and counter < 3 and arrowRoom != self.__currentRoom:
@@ -303,7 +297,7 @@ class Game():
             else:
                 output("\nThe arrow has power for " + str(3 - counter) + " more rooms.")
             counter += 1
-            direction = self.inputDirection("shoot2")
+            direction = self.inputDirection("shoot")
             arrowRoom = arrowRoom.getNeighbour(direction)
 
         if arrowRoom == self.__currentRoom:
@@ -367,11 +361,14 @@ class Game():
         while self.__running:
             self.__currentRoom.showInfo()
 
-            action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+            prompts = ["\nDo you want to move or shoot an arrow?,,", "\nWould you rather move or try to shoot Wumpus?,,", "\nDo you want to walk to an adjacent room or shoot?,,", "\nWould you like to move along or try to kill the beast?,,"]
+
+            prompt = random.choice(prompts)
+            action = recognize(prompt, ["M", "S", "H"])
 
             if action == "H":
                 helpNeeded = True
-            else
+            else:
                 helpNeeded = False
 
             while helpNeeded:
@@ -385,7 +382,7 @@ class Game():
                         "If you hear Wumpus growl, then be especially careful! \n"
                         "You can try to kill Wumpus by shooting an arrow. \n")
                 self.__currentRoom.showInfo()
-                action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+                action = recognize(prompt, ["M", "S", "H"])
                 if action != "H":
                     helpNeeded = False
                 
@@ -401,7 +398,7 @@ class Game():
             elif action == "S":
                 self.shootArrow()
 
-            if self.__running and self.__difficulty == "D":
+            if self.__running and self.__difficulty == "H":
                 self.moveWumpus()
     
 class TestGame():
@@ -470,23 +467,17 @@ class TestGame():
     RETURNS E, W, N or S as a string. """
         
         if movementType == "move":
-            if self.__directionCounter < 3 and self.__firstTime:
-                prompt = "Where do you want to go? East, west, north or south?"
-            else:
-                prompt = "Where do you want to go?"
+            prompts = ["Where would you like to go?,,", "Which direction do you want to go?,,", "Which path do you want to take?,,", "Which way do you want to go?,,", "Where do you want to go?,,", ]
+            prompt = random.choice(prompts)
             sound = "steps"
-        elif movementType == "shoot1":
             if self.__directionCounter < 3 and self.__firstTime:
-                prompt = "Which direction do you want to shoot in? East, west, north or south?"
-            else:
-                prompt = "Which direction do you want to shoot in?"
+                prompt += "\nEast, west, north or south?"
+        elif movementType == "shoot":
+            prompts = ["Which way should the arrow fly?,,", "Which direction do you want to shoot in?,,", "Which way do you want to turn your bow?,,", "Which direction would you like to shoot in?,,", "Which way would you like to turn your bow?,,"]
+            prompt = random.choice(prompts)
             sound = "arrow"
-        elif movementType == "shoot2":
             if self.__directionCounter < 3 and self.__firstTime:
-                prompt = "Which way should it fly? East, west, north or south?"
-            else:
-                prompt = "Which way should it fly?"
-            sound = "arrow"
+                prompt += "\nEast, west, north or south?"
 
         self.__directionCounter += 1
 
@@ -494,7 +485,7 @@ class TestGame():
 
         if direction == "H":
             helpNeeded = True
-        else
+        else:
             helpNeeded = False
 
         while helpNeeded:
@@ -526,7 +517,7 @@ class TestGame():
             output("Arrows can fly through at most 3 rooms and you can change their direction after\n"
                     "every room. But be careful not to accidentally shoot yourself,,\n")
             self.__firstArrow = False
-        direction = self.inputDirection("shoot1")
+        direction = self.inputDirection("shoot")
         counter = 1
         arrowRoom = self.__currentRoom.getNeighbour(direction)
         while arrowRoom.getTrap() != "wumpus" and counter < 3 and arrowRoom != self.__currentRoom:
@@ -535,7 +526,7 @@ class TestGame():
             else:
                 output("\nThe arrow has power for " + str(3 - counter) + " more rooms.")
             counter += 1
-            direction = self.inputDirection("shoot2")
+            direction = self.inputDirection("shoot")
             arrowRoom = arrowRoom.getNeighbour(direction)
 
         if arrowRoom == self.__currentRoom:
@@ -599,11 +590,14 @@ class TestGame():
         while self.__running:
             self.__currentRoom.showInfo()
 
-            action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+            prompts = ["\nDo you want to move or shoot an arrow?,,", "\nWould you rather move or try to shoot Wumpus?,,", "\nDo you want to walk to an adjacent room or shoot?,,", "\nWould you like to move along or try to kill the beast?,,"]
+
+            prompt = random.choice(prompts)
+            action = recognize(prompt, ["M", "S", "H"])
 
             if action == "H":
                 helpNeeded = True
-            else
+            else:
                 helpNeeded = False
 
             while helpNeeded:
@@ -617,7 +611,7 @@ class TestGame():
                         "If you hear Wumpus growl, then be especially careful! \n"
                         "You can try to kill Wumpus by shooting an arrow. \n")
                 self.__currentRoom.showInfo()
-                action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+                action = recognize(prompt, ["M", "S", "H"])
                 if action != "H":
                     helpNeeded = False
                 
@@ -633,7 +627,7 @@ class TestGame():
             elif action == "S":
                 self.shootArrow()
 
-            if self.__running and self.__difficulty == "D":
+            if self.__running and self.__difficulty == "H":
                 self.moveWumpus()
 
 
