@@ -67,9 +67,6 @@ class Room():
     def showInfo(self):
         """ outputs information about the room and its neighbours. """
         output("\nYou are in room number " + str(self.__roomNr) + ". ")
-                #"From here, you can get to the following rooms:"
-                #"East: " + str(self.__neighbours["E"]) + ". West: " + str(self.__neighbours["W"]) +
-                #". North: " + str(self.__neighbours["N"]) + ". South: " + str(self.__neighbours["S"]) + ".")
         for direction in self.__neighbours:
             self.senseTraps(direction)
 
@@ -158,14 +155,14 @@ class Game():
         """ distributes traps over the rooms.
     If difficulty = hard: CHANGES self.__wumpusRoom. """
         random.shuffle(self.__listOfRooms)
-        if self.__difficulty == "E":
+        if self.__difficulty == "easy":
             for room in self.__listOfRooms[0:3]:
                 room.addPit()
             for room in self.__listOfRooms[3:8]:
                 room.addBats()
             random.choice(self.__listOfRooms[8:]).addWumpus()
 
-        elif self.__difficulty == "H":
+        elif self.__difficulty == "hard":
             for room in self.__listOfRooms[0:5]:
                 room.addPit()
             for room in self.__listOfRooms[5:12]:
@@ -186,26 +183,26 @@ class Game():
         """ shuffles the list of Room-objects and 'connects' the rooms east to west.
     shuffles the list again and 'connects' the rooms north to south. """
         random.shuffle(self.__listOfRooms)
-        self.__listOfRooms[0].addNeighbour("E", self.__listOfRooms[19])
-        self.__listOfRooms[0].addNeighbour("W", self.__listOfRooms[1])
-        self.__listOfRooms[19].addNeighbour("E", self.__listOfRooms[18])
-        self.__listOfRooms[19].addNeighbour("W", self.__listOfRooms[0])
+        self.__listOfRooms[0].addNeighbour("east", self.__listOfRooms[19])
+        self.__listOfRooms[0].addNeighbour("west", self.__listOfRooms[1])
+        self.__listOfRooms[19].addNeighbour("east", self.__listOfRooms[18])
+        self.__listOfRooms[19].addNeighbour("west", self.__listOfRooms[0])
         
         for i in range(1, 19):
             room = self.__listOfRooms[i]
-            room.addNeighbour("E", self.__listOfRooms[i - 1])
-            room.addNeighbour("W", self.__listOfRooms[i + 1])
+            room.addNeighbour("east", self.__listOfRooms[i - 1])
+            room.addNeighbour("west", self.__listOfRooms[i + 1])
 
         random.shuffle(self.__listOfRooms)
-        self.__listOfRooms[0].addNeighbour("N", self.__listOfRooms[19])
-        self.__listOfRooms[0].addNeighbour("S", self.__listOfRooms[1])
-        self.__listOfRooms[19].addNeighbour("N", self.__listOfRooms[18])
-        self.__listOfRooms[19].addNeighbour("S", self.__listOfRooms[0])
+        self.__listOfRooms[0].addNeighbour("north", self.__listOfRooms[19])
+        self.__listOfRooms[0].addNeighbour("south", self.__listOfRooms[1])
+        self.__listOfRooms[19].addNeighbour("north", self.__listOfRooms[18])
+        self.__listOfRooms[19].addNeighbour("south", self.__listOfRooms[0])
             
         for i in range(1, 19):
             room = self.__listOfRooms[i]
-            room.addNeighbour("N", self.__listOfRooms[i - 1])
-            room.addNeighbour("S", self.__listOfRooms[i + 1])
+            room.addNeighbour("north", self.__listOfRooms[i - 1])
+            room.addNeighbour("south", self.__listOfRooms[i + 1])
 
     def __chooseStartingpoint(self):
         """ randomly chooses a room in listOfRooms that becomes the startingpoint (the room cannot contain traps). """
@@ -216,7 +213,7 @@ class Game():
     def requestDifficulty(self):
         """ lets the user choose a difficulty.
     CHANGES self.__difficulty. """
-        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["E", "N", "H"])
+        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["easy", "normal", "hard"])
         
     def moveWumpus(self):
         """ lets Wumpus move around the tunnels if difficulty = hard. Removes bats in Wumpus' room. """
@@ -256,9 +253,9 @@ class Game():
 
         self.__directionCounter += 1
 
-        direction = recognize(prompt, ["E", "W", "N", "S", "H"])
+        direction = recognize(prompt, ["east", "west", "north", "south", "help"])
 
-        if direction == "H":
+        if direction == "help":
             helpNeeded = True
         else:
             helpNeeded = False
@@ -273,8 +270,8 @@ class Game():
                         "Arrows can fly through at most 3 rooms and you can change their direction after\n"
                         "every room. But be careful not to accidentally shoot yourself,,\n")
 
-            direction = recognize(prompt, ["E", "W", "N", "S", "H"])
-            if direction != "H":
+            direction = recognize(prompt, ["east", "west", "north", "south", "help"])
+            if direction != "help":
                 helpNeeded = False
 
         return direction
@@ -372,9 +369,9 @@ class Game():
             prompts = ["\nDo you want to move or shoot an arrow?,,", "\nWould you rather move or try to shoot Wumpus?,,", "\nDo you want to walk to an adjacent room or shoot?,,", "\nWould you like to move along or try to kill the beast?,,"]
 
             prompt = random.choice(prompts)
-            action = recognize(prompt, ["M", "S", "H"])
+            action = recognize(prompt, ["move", "shoot", "help"])
 
-            if action == "H":
+            if action == "help":
                 helpNeeded = True
             else:
                 helpNeeded = False
@@ -390,11 +387,11 @@ class Game():
                         "If you hear Wumpus growl, then be especially careful! \n"
                         "You can try to kill Wumpus by shooting an arrow. \n")
                 self.__currentRoom.showInfo()
-                action = recognize(prompt, ["M", "S", "H"])
-                if action != "H":
+                action = recognize(prompt, ["move", "shoot", "help"])
+                if action != "help":
                     helpNeeded = False
                 
-            if action == "M":
+            if action == "move":
                 self.move()
                 while self.__currentRoom.getTrap() == "bats":
                     self.batAbduction()
@@ -403,10 +400,10 @@ class Game():
                 if trapType == "pit" or trapType == "wumpus":
                     self.endGame(trapType)
                             
-            elif action == "S":
+            elif action == "shoot":
                 self.shootArrow()
 
-            if self.__running and self.__difficulty == "H":
+            if self.__running and self.__difficulty == "hard":
                 self.moveWumpus()
     
 class TestGame():
@@ -420,7 +417,7 @@ class TestGame():
         self.__firstArrow = True
         self.__directionCounter = 0
         self.__createRooms()
-        self.__difficulty = "E"
+        self.__difficulty = "easy"
         self.__addTraps()
         self.__createMap()
         self.__chooseStartingpoint()
@@ -445,25 +442,25 @@ class TestGame():
     def __createMap(self):
         """ 'connects' the rooms east to west.
     'connects' the rooms north to south. """
-        self.__listOfRooms[0].addNeighbour("E", self.__listOfRooms[19])
-        self.__listOfRooms[0].addNeighbour("W", self.__listOfRooms[1])
-        self.__listOfRooms[19].addNeighbour("E", self.__listOfRooms[18])
-        self.__listOfRooms[19].addNeighbour("W", self.__listOfRooms[0])
+        self.__listOfRooms[0].addNeighbour("east", self.__listOfRooms[19])
+        self.__listOfRooms[0].addNeighbour("west", self.__listOfRooms[1])
+        self.__listOfRooms[19].addNeighbour("east", self.__listOfRooms[18])
+        self.__listOfRooms[19].addNeighbour("west", self.__listOfRooms[0])
         
         for i in range(1, 19):
             room = self.__listOfRooms[i]
-            room.addNeighbour("E", self.__listOfRooms[i - 1])
-            room.addNeighbour("W", self.__listOfRooms[i + 1])
+            room.addNeighbour("east", self.__listOfRooms[i - 1])
+            room.addNeighbour("west", self.__listOfRooms[i + 1])
 
-        self.__listOfRooms[0].addNeighbour("N", self.__listOfRooms[18])
-        self.__listOfRooms[0].addNeighbour("S", self.__listOfRooms[2])
-        self.__listOfRooms[19].addNeighbour("N", self.__listOfRooms[17])
-        self.__listOfRooms[19].addNeighbour("S", self.__listOfRooms[1])
+        self.__listOfRooms[0].addNeighbour("north", self.__listOfRooms[18])
+        self.__listOfRooms[0].addNeighbour("south", self.__listOfRooms[2])
+        self.__listOfRooms[19].addNeighbour("north", self.__listOfRooms[17])
+        self.__listOfRooms[19].addNeighbour("south", self.__listOfRooms[1])
             
         for i in range(1, 18):
             room = self.__listOfRooms[i]
-            room.addNeighbour("N", self.__listOfRooms[i - 2])
-            room.addNeighbour("S", self.__listOfRooms[i + 2])
+            room.addNeighbour("north", self.__listOfRooms[i - 2])
+            room.addNeighbour("south", self.__listOfRooms[i + 2])
 
     def __chooseStartingpoint(self):
         """ sets the starting point to room 10 """
@@ -489,9 +486,9 @@ class TestGame():
 
         self.__directionCounter += 1
 
-        direction = recognize(prompt, ["E", "W", "N", "S", "H"])
+        direction = recognize(prompt, ["east", "west", "north", "south", "help"])
 
-        if direction == "H":
+        if direction == "help":
             helpNeeded = True
         else:
             helpNeeded = False
@@ -506,8 +503,8 @@ class TestGame():
                         "Arrows can fly through at most 3 rooms and you can change their direction after\n"
                         "every room. But be careful not to accidentally shoot yourself,,\n")
 
-            direction = recognize(prompt, ["E", "W", "N", "S", "H"])
-            if direction != "H":
+            direction = recognize(prompt, ["east", "west", "north", "south", "help"])
+            if direction != "help":
                 helpNeeded = False
 
         play(sound)
@@ -601,9 +598,9 @@ class TestGame():
             prompts = ["\nDo you want to move or shoot an arrow?,,", "\nWould you rather move or try to shoot Wumpus?,,", "\nDo you want to walk to an adjacent room or shoot?,,", "\nWould you like to move along or try to kill the beast?,,"]
 
             prompt = random.choice(prompts)
-            action = recognize(prompt, ["M", "S", "H"])
+            action = recognize(prompt, ["move", "shoot", "help"])
 
-            if action == "H":
+            if action == "help":
                 helpNeeded = True
             else:
                 helpNeeded = False
@@ -619,11 +616,11 @@ class TestGame():
                         "If you hear Wumpus growl, then be especially careful! \n"
                         "You can try to kill Wumpus by shooting an arrow. \n")
                 self.__currentRoom.showInfo()
-                action = recognize(prompt, ["M", "S", "H"])
-                if action != "H":
+                action = recognize(prompt, ["move", "shoot", "help"])
+                if action != "help":
                     helpNeeded = False
                 
-            if action == "M":
+            if action == "move":
                 self.move()
                 while self.__currentRoom.getTrap() == "bats":
                     self.batAbduction()
@@ -632,10 +629,10 @@ class TestGame():
                 if trapType == "pit" or trapType == "wumpus":
                     self.endGame(trapType)
                             
-            elif action == "S":
+            elif action == "shoot":
                 self.shootArrow()
 
-            if self.__running and self.__difficulty == "H":
+            if self.__running and self.__difficulty == "hard":
                 self.moveWumpus()
 
 
@@ -772,27 +769,27 @@ def main():
             userInput = recognize("  What do you want to do?\n"
                   "          Start a new game,\n"
                   "          or exit the program.\n"
-                  "          ", ["A", "B", "C"])
+                  "          ", ["play", "test", "exit"])
         else:
             userInput = recognize("Do you want to play again or exit the program?\n"
-                  "          ", ["A", "B", "C"])
+                  "          ", ["play", "test", "exit"])
 
-        if userInput == "A":
+        if userInput == "play":
             if firstTime == False:
                 intro = recognize("Would you like to hear the introduction again?\n"
-                  "          ", ["Y", "N"])
-                if intro == "Y":
+                  "          ", ["yes", "no"])
+                if intro == "yes":
                     showInstructions()
             else:
                 showInstructions()
             newGame = Game(firstTime)
             newGame.runGame()
 
-        elif userInput == "B":
+        elif userInput == "test":
             newGame = TestGame(firstTime)
             newGame.runGame()
 
-        elif userInput == "C":
+        elif userInput == "exit":
             break
             output("Thank you for playing.\n")
 
