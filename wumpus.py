@@ -10,7 +10,7 @@ import random
 import os
 import subprocess
 import signal
-import pyglet
+import speech_recognition as sr
 
 ############################################################################### CLASSES #######
 
@@ -570,8 +570,34 @@ def output(text):
     say(text, True)
 
 def recognize(message, validInputs):
-    say(message, False)
-    return getUserInput(message, validInputs)
+    say(message, True)
+    return record(validInputs)
+    #return getUserInput(message, validInputs)
+
+def record(validInputs):
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        audio = r.listen(source)
+    w = []
+    try:
+        l = r.recognize(audio,True)
+        print("Done. Possible utterances:")
+        for prediction in l:
+            utterance = prediction["text"].split()
+            for word in utterance:
+                w.append(word)
+            print("\"" + prediction["text"] + "\" (" + str(prediction["confidence"] * 100) + "%)")
+    except LookupError:
+        print("Could not understand audio")
+
+    words = list(set(w))
+    for v in validInputs:
+        buzzlist = buzzwords[v]
+        for b in buzzlist:
+            if b in words:
+                print("User input: " + v)
+                return v
 
 def strip(text):
     # prepare text for speech output
@@ -597,8 +623,22 @@ def play(sound):
 def main():
 
     while True:
-        output("-----------------------------------------------------\n"
-              "~ Welcome to 'Wumpus', a speech-controlled adventure game. ~\n")
+        global buzzwords
+        buzzwords = {}
+        buzzwords["Y"] = ["yes", "yeah", "yo", "yep"]
+        buzzwords["N"] = ["no", "nope"]
+        buzzwords["M"] = ["move", "go"]
+        buzzwords["N"] = ["north", "up", "normal"]
+        buzzwords["E"] = ["east", "right", "easy"]
+        buzzwords["S"] = ["south", "down", "shoot", "arrow", "fire"]
+        buzzwords["W"] = ["west", "left"]
+        buzzwords["A"] = ["new", "game", "play", "start"]
+        buzzwords["B"] = ["test"]
+        buzzwords["C"] = ["exit", "quit", "stop", "out", "program"]
+        buzzwords["H"] = ["help", "support", "hard"]
+
+        #output("-----------------------------------------------------\n"
+        #      "~ Welcome to 'Wumpus', a speech-controlled adventure game. ~\n")
         
         userInput = recognize("  What do you want to do?\n"
               "          Start a new game,\n"
