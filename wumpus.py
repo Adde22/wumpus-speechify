@@ -74,14 +74,14 @@ class Room():
         """ outputs information about traps in the neighbouring rooms. """
         neighbour = self.__neighbours[direction]
         if neighbour.__pit:
-            #TODO: SFX
+            play("draft")
             output("You feel a light draft.")
         elif neighbour.__bats:
+            play("bats")
             output("You hear bats.")
-            #TODO: SFX
         elif neighbour.__wumpus:
+            play("growl")
             output("You smell Wumpus' foul breath!")
-            #TODO: SFX
 
     def trapCheck(self):
         """ checks if the room contains traps.
