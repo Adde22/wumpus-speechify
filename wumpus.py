@@ -384,6 +384,7 @@ class Game():
                         "Don't fall into it or you will die! \n"
                         "If you hear Wumpus growl, then be especially careful! \n"
                         "You can try to kill Wumpus by shooting an arrow. \n")
+                self.__currentRoom.showInfo()
                 action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
                 if action != "H":
                     helpNeeded = False
@@ -615,6 +616,7 @@ class TestGame():
                         "Don't fall into it or you will die! \n"
                         "If you hear Wumpus growl, then be especially careful! \n"
                         "You can try to kill Wumpus by shooting an arrow. \n")
+                self.__currentRoom.showInfo()
                 action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
                 if action != "H":
                     helpNeeded = False
