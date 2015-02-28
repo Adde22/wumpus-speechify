@@ -136,7 +136,7 @@ class Game():
         self.__running = True
         self.__firstTime = firstTime
         self.__firstArrow = True
-        self.__directionCounter = 0;
+        self.__directionCounter = 0
         self.__createRooms()
         self.__difficulty = self.requestDifficulty()
         self.__addTraps()
@@ -272,7 +272,9 @@ class Game():
                         "From where you are standing, you can walk East, West, North or South. \n")
             else:
                 output("You can shoot an arrow to kill Wumpus. \n"
-                        "From where you are standing, you can shoot East, West, North or South. \n")
+                        "From where you are standing, you can shoot East, West, North or South. \n"
+                        "Arrows can fly through at most 3 rooms and you can change their direction after\n"
+                        "every room. But be careful not to accidentally shoot yourself,,\n")
 
             direction = recognize(prompt, ["E", "W", "N", "S", "H"])
             if direction != "H":
@@ -410,7 +412,7 @@ class TestGame():
         self.__running = True
         self.__firstTime = firstTime
         self.__firstArrow = True
-        self.__directionCounter = 0;
+        self.__directionCounter = 0
         self.__createRooms()
         self.__difficulty = "E"
         self.__addTraps()
@@ -500,7 +502,9 @@ class TestGame():
                         "From where you are standing, you can walk East, West, North or South. \n")
             else:
                 output("You can shoot an arrow to kill Wumpus. \n"
-                        "From where you are standing, you can shoot East, West, North or South. \n")
+                        "From where you are standing, you can shoot East, West, North or South. \n"
+                        "Arrows can fly through at most 3 rooms and you can change their direction after\n"
+                        "every room. But be careful not to accidentally shoot yourself,,\n")
 
             direction = recognize(prompt, ["E", "W", "N", "S", "H"])
             if direction != "H":
@@ -666,11 +670,10 @@ def showInstructions():
           "abduct you and drop you in a random room,,\n"
           "Wumpus lives in one of the rooms and will eat you as soon as he notices you,,\n"
           "Luckily you can sense from the adjacent rooms, if there is a draft of air from\n"
-          "a bottomless pit, the sound of flapping bat wings or the smell of Wumpus' foul\n"
-          "breath,,\n"
+          "a bottomless pit, the sound of flapping bat wings or Wumpus' angry growl,,\n"
           "\n"
           "To win the game, you have to shoot Wumpus with your bow and arrows.\n"
-          "You have 5 arrows. Good luck!\n"
+          "You have 5 arrows. Good luck!,,\n"
           "If you ever are unsure what to do, you can ask for help.")  
 
 
