@@ -77,11 +77,14 @@ class Room():
         """ outputs information about traps in the neighbouring rooms. """
         neighbour = self.__neighbours[direction]
         if neighbour.__pit:
+            #TODO: SFX
             output("You feel a light draft.")
         elif neighbour.__bats:
             output("You hear bats.")
+            #TODO: SFX
         elif neighbour.__wumpus:
             output("You smell Wumpus' foul breath!")
+            #TODO: SFX
 
     def trapCheck(self):
         """ checks if the room contains traps.
@@ -325,6 +328,7 @@ class Game():
     CHANGES self.__running."""
         self.__running = False
         if trapType == "pit":
+            #TODO: SFX
             output("\nThere is a bottomless pit in this room!\n"
                   "You are sucked into it in a powerful current of air.\n"
                   "As you fall into the darkness, you come to the realisation that\n"
@@ -333,6 +337,7 @@ class Game():
                   "\nGAME OVER\n\n")
 
         elif trapType == "wumpus":
+            #TODO: SFX
             output("\nWumpus is in this room!\n"
                   "You try to reach behind your back to grasp an arrow and shoot the monster, \n"
                   "but accidentally spill the contents of your quiver as you twist and bend.\n"
@@ -341,15 +346,18 @@ class Game():
                   "\nGAME OVER\n\n")
 
         elif trapType == "suicide":
+            #TODO: SFX
             output("\nCongratulations, you managed to shoot yourself with bow and arrow."
                     "\nGAME OVER\n\n")
 
         elif trapType == "noArrows":
+            #TODO: SFX
             output("\nYou hear your last arrow hit a wall a couple of rooms away.\n"
                   "How are you going to defeat Wumpus now, with your bare hands?"
                     "\nGAME OVER\n\n")
 
         else:
+            #TODO: SFX
             output("\nYour arrow found Wumpus! It doesn't seem to like him, judging from the way\n"
                   "it finds its path right to the monster's heart all on its own. Good riddance!\n"
                   "Now the only thing left to do is to get out of here!\nThat can't be too hard, right?..."
@@ -739,17 +747,21 @@ def main():
 
     global buzzwords
     buzzwords = {}
-    buzzwords["Y"] = ["yes", "yeah", "yo", "yep"]
-    buzzwords["N"] = ["no", "nope"]
-    buzzwords["M"] = ["move", "go"]
-    buzzwords["N"] = ["north", "up", "normal"]
-    buzzwords["E"] = ["east", "right", "easy"]
-    buzzwords["S"] = ["south", "down", "shoot", "arrow", "fire"]
-    buzzwords["W"] = ["west", "left"]
-    buzzwords["A"] = ["new", "game", "play", "start"]
-    buzzwords["B"] = ["test"]
-    buzzwords["C"] = ["exit", "quit", "stop", "out", "program"]
-    buzzwords["H"] = ["help", "support", "hard"]
+    buzzwords["yes"] = ["yes", "yeah", "yo", "yep"]
+    buzzwords["no"] = ["no", "nope"]
+    buzzwords["move"] = ["move", "go", "walk", "crawl"]
+    buzzwords["north"] = ["north", "up"]
+    buzzwords["normal"] = ["normal"]
+    buzzwords["east"] = ["east", "right"]
+    buzzwords["easy"] = ["easy"]
+    buzzwords["south"] = ["south", "down"]
+    buzzwords["shoot"] = ["shoot", "arrow", "fire"]
+    buzzwords["west"] = ["west", "left"]
+    buzzwords["play"] = ["new", "game", "play", "start"]
+    buzzwords["test"] = ["test"]
+    buzzwords["exit"] = ["exit", "quit", "stop", "out", "program"]
+    buzzwords["help"] = ["help", "support"]
+    buzzwords["hard"] = ["hard"]
 
     output("-----------------------------------------------------\n"
               "~ Welcome to 'Wumpus', a speech-controlled adventure game. ~\n")
