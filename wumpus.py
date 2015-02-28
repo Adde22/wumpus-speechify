@@ -263,6 +263,8 @@ class Game():
 
         if direction == "H":
             helpNeeded = True
+        else:
+            helpNeeded = False
 
         while helpNeeded:
             if movementType == "move":
@@ -367,6 +369,8 @@ class Game():
 
             if action == "H":
                 helpNeeded = True
+            else
+                helpNeeded = False
 
             while helpNeeded:
                 output("You can move around the tunnels. \n"
@@ -487,6 +491,8 @@ class TestGame():
 
         if direction == "H":
             helpNeeded = True
+        else
+            helpNeeded = False
 
         while helpNeeded:
             if movementType == "move":
@@ -592,6 +598,8 @@ class TestGame():
 
             if action == "H":
                 helpNeeded = True
+            else
+                helpNeeded = False
 
             while helpNeeded:
                 output("You can move around the tunnels. \n"
