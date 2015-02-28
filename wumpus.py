@@ -130,10 +130,13 @@ class Player():
 class Game():
     """ represents a full game. Calls all the necessary methods in the right order upon instantiation. """
 
-    def __init__(self):
+    def __init__(self, firstTime):
         """ creates a Game-object.
     CHANGES running. """
         self.__running = True
+        self.__firstTime = firstTime
+        self.__firstArrow = True
+        self.__directionCounter = 0;
         self.__createRooms()
         self.__difficulty = self.requestDifficulty()
         self.__addTraps()
@@ -159,7 +162,7 @@ class Game():
                 room.addBats()
             random.choice(self.__listOfRooms[8:]).addWumpus()
 
-        elif self.__difficulty == "H":
+        elif self.__difficulty == "D":
             for room in self.__listOfRooms[0:5]:
                 room.addPit()
             for room in self.__listOfRooms[5:12]:
@@ -210,7 +213,7 @@ class Game():
     def requestDifficulty(self):
         """ lets the user choose a difficulty.
     CHANGES self.__difficulty. """
-        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["E", "N", "H"])
+        return recognize("\nDo you want to play in easy, normal or hard mode?\n", ["E", "N", "D"])
         
     def moveWumpus(self):
         """ lets Wumpus move around the tunnels if difficulty = hard. Removes bats in Wumpus' room. """
@@ -237,14 +240,43 @@ class Game():
         """ lets the user input a direction and shows fitting text. Handles errors.
     RETURNS E, W, N or S as a string. """
         
-        if movementType == "move":
-            prompt = "Where do you want to go? East, west, north or south? "
-        elif movementType == "shoot1":
-            prompt = "Which direction do you want to shoot in? East, west, north or south? "
-        elif movementType == "shoot2":
-            prompt = "Which way should it fly? East, west, north or south?"
 
-        return recognize(prompt, ["E", "W", "N", "S"])
+        if movementType == "move":
+            if self.__directionCounter < 3 and self.__firstTime:
+                prompt = "Where do you want to go? East, west, north or south?"
+            else:
+                prompt = "Where do you want to go?"
+        elif movementType == "shoot1":
+            if self.__directionCounter < 3 and self.__firstTime:
+                prompt = "Which direction do you want to shoot in? East, west, north or south?"
+            else:
+                prompt = "Which direction do you want to shoot in?"
+        elif movementType == "shoot2":
+            if self.__directionCounter < 3 and self.__firstTime:
+                prompt = "Which way should it fly? East, west, north or south?"
+            else:
+                prompt = "Which way should it fly?"
+
+        self.__directionCounter += 1
+
+        direction = recognize(prompt, ["E", "W", "N", "S", "H"])
+
+        if direction == "H":
+            helpNeeded = True
+
+        while helpNeeded:
+            if movementType == "move":
+                output("You can move around the tunnels. \n"
+                        "From where you are standing, you can walk East, West, North or South. \n")
+            else:
+                output("You can shoot an arrow to kill Wumpus. \n"
+                        "From where you are standing, you can shoot East, West, North or South. \n")
+
+            direction = recognize(prompt, ["E", "W", "N", "S", "H"])
+            if direction != "H":
+                helpNeeded = False
+
+        return direction
     
     def move(self):
         """ lets the user move around the labyrinth.
@@ -254,6 +286,10 @@ class Game():
 
     def shootArrow(self):
         """ lets the user shoot an arrow. """
+        if self.__firstArrow and self.__firstTime:
+            output("Arrows can fly through at most 3 rooms and you can change their direction after\n"
+                    "every room. But be careful not to accidentally shoot yourself,,\n")
+            self.__firstArrow = False
         direction = self.inputDirection("shoot1")
         counter = 1
         arrowRoom = self.__currentRoom.getNeighbour(direction)
@@ -327,7 +363,24 @@ class Game():
         while self.__running:
             self.__currentRoom.showInfo()
 
-            action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S"])
+            action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+
+            if action == "H":
+                helpNeeded = True
+
+            while helpNeeded:
+                output("You can move around the tunnels. \n"
+                        "From where you are standing, you can walk East, West, North or South. \n"
+                        "But beware of traps!\n"
+                        "If you hear bat wings flapping, then bats reside in one of the adjacent rooms.\n"
+                        "When you step into their room, they will abduct you and drop you in a random room. ,, \n"
+                        "A howling wind signals that a bottomless pit is in one of the neighbouring rooms. \n"
+                        "Don't fall into it or you will die! \n"
+                        "If you hear Wumpus growl, then be especially careful! \n"
+                        "You can try to kill Wumpus by shooting an arrow. \n")
+                action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+                if action != "H":
+                    helpNeeded = False
                 
             if action == "M":
                 self.move()
@@ -341,16 +394,19 @@ class Game():
             elif action == "S":
                 self.shootArrow()
 
-            if self.__running and self.__difficulty == "H":
+            if self.__running and self.__difficulty == "D":
                 self.moveWumpus()
     
 class TestGame():
     """ represents a test game without random elements. Calls all the necessary methods in the right order upon instantiation. """
 
-    def __init__(self):
+    def __init__(self, firstTime):
         """ creates a TestGame-object.
     CHANGES running. """
         self.__running = True
+        self.__firstTime = firstTime
+        self.__firstArrow = True
+        self.__directionCounter = 0;
         self.__createRooms()
         self.__difficulty = "E"
         self.__addTraps()
@@ -407,18 +463,45 @@ class TestGame():
     RETURNS E, W, N or S as a string. """
         
         if movementType == "move":
-            prompt = "Where do you want to go? East, west, north or south?"
+            if self.__directionCounter < 3 and self.__firstTime:
+                prompt = "Where do you want to go? East, west, north or south?"
+            else:
+                prompt = "Where do you want to go?"
             sound = "steps"
         elif movementType == "shoot1":
-            prompt = "Which direction do you want to shoot in? East, west, north or south?"
+            if self.__directionCounter < 3 and self.__firstTime:
+                prompt = "Which direction do you want to shoot in? East, west, north or south?"
+            else:
+                prompt = "Which direction do you want to shoot in?"
             sound = "arrow"
         elif movementType == "shoot2":
-            prompt = "Which way should it fly? East, west, north or south?"
+            if self.__directionCounter < 3 and self.__firstTime:
+                prompt = "Which way should it fly? East, west, north or south?"
+            else:
+                prompt = "Which way should it fly?"
             sound = "arrow"
 
-        userInput = recognize(prompt, ["E", "W", "N", "S"])
+        self.__directionCounter += 1
+
+        direction = recognize(prompt, ["E", "W", "N", "S", "H"])
+
+        if direction == "H":
+            helpNeeded = True
+
+        while helpNeeded:
+            if movementType == "move":
+                output("You can move around the tunnels. \n"
+                        "From where you are standing, you can walk East, West, North or South. \n")
+            else:
+                output("You can shoot an arrow to kill Wumpus. \n"
+                        "From where you are standing, you can shoot East, West, North or South. \n")
+
+            direction = recognize(prompt, ["E", "W", "N", "S", "H"])
+            if direction != "H":
+                helpNeeded = False
+
         play(sound)
-        return userInput
+        return direction
     
     def move(self):
         """ lets the user move around the labyrinth.
@@ -428,6 +511,10 @@ class TestGame():
 
     def shootArrow(self):
         """ lets the user shoot an arrow. """
+        if self.__firstArrow and self.__firstTime:
+            output("Arrows can fly through at most 3 rooms and you can change their direction after\n"
+                    "every room. But be careful not to accidentally shoot yourself,,\n")
+            self.__firstArrow = False
         direction = self.inputDirection("shoot1")
         counter = 1
         arrowRoom = self.__currentRoom.getNeighbour(direction)
@@ -501,7 +588,24 @@ class TestGame():
         while self.__running:
             self.__currentRoom.showInfo()
 
-            action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S"])
+            action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+
+            if action == "H":
+                helpNeeded = True
+
+            while helpNeeded:
+                output("You can move around the tunnels. \n"
+                        "From where you are standing, you can walk East, West, North or South. \n"
+                        "But beware of traps!\n"
+                        "If you hear bat wings flapping, then bats reside in one of the adjacent rooms.\n"
+                        "When you step into their room, they will abduct you and drop you in a random room. ,, \n"
+                        "A howling wind signals that a bottomless pit is in one of the neighbouring rooms. \n"
+                        "Don't fall into it or you will die! \n"
+                        "If you hear Wumpus growl, then be especially careful! \n"
+                        "You can try to kill Wumpus by shooting an arrow. \n")
+                action = recognize("\nDo you want to move or shoot an arrow? ", ["M", "S", "H"])
+                if action != "H":
+                    helpNeeded = False
                 
             if action == "M":
                 self.move()
@@ -515,7 +619,7 @@ class TestGame():
             elif action == "S":
                 self.shootArrow()
 
-            if self.__running and self.__difficulty == "H":
+            if self.__running and self.__difficulty == "D":
                 self.moveWumpus()
 
 
@@ -558,9 +662,11 @@ def showInstructions():
           "breath,,\n"
           "\n"
           "To win the game, you have to shoot Wumpus with your bow and arrows.\n"
-          "Arrows can fly through at most 3 rooms and you can change their direction after\n"
-          "every room. But be careful not to accidentally shoot yourself,,\n"
-          "You have 5 arrows. Good luck!")
+          "You have 5 arrows. Good luck!\n"
+          "If you ever are unsure what to do, you can ask for help.")  
+
+
+
 
 
 ################################################################################### SPEECH #####
@@ -596,28 +702,41 @@ def play(sound):
 
 def main():
 
-    while True:
-        output("-----------------------------------------------------\n"
+    firstTime = True
+
+    output("-----------------------------------------------------\n"
               "~ Welcome to 'Wumpus', a speech-controlled adventure game. ~\n")
+
+    while True:
         
-        userInput = recognize("  What do you want to do?\n"
-              "          Start a new game,\n"
-              #"          start a test game,\n"
-              "          or exit the program.\n"
-              "          ", ["A", "B", "C"])
+        if firstTime: 
+            userInput = recognize("  What do you want to do?\n"
+                  "          Start a new game,\n"
+                  "          or exit the program.\n"
+                  "          ", ["A", "B", "C"])
+        else:
+            userInput = recognize("Do you want to play again or exit the program?\n"
+                  "          ", ["A", "B", "C"])
 
         if userInput == "A":
-            showInstructions()
-            newGame = Game()
+            if firstTime == False:
+                intro = recognize("Would you like to hear the introduction again?\n"
+                  "          ", ["Y", "N"])
+                if intro == "Y":
+                    showInstructions()
+            else:
+                showInstructions()
+            newGame = Game(firstTime)
             newGame.runGame()
 
         elif userInput == "B":
-            newGame = TestGame()
+            newGame = TestGame(firstTime)
             newGame.runGame()
 
         elif userInput == "C":
-            #input("-----------------------------------------------------\n"
-            #      "Press enter to exit.")
             break
+            output("Thank you for playing.\n")
+
+        firstTime = False
 
 main()
