@@ -66,7 +66,8 @@ class Room():
 
     def showInfo(self):
         """ outputs information about the room and its neighbours. """
-        output("\nYou are in room number " + str(self.__roomNr) + ". ")
+        prompts = ["\nYou are in room number ", "\nYou find yourself in room number ", "You enter the next room. Engraved on the wall is the number ", "The room you just entered is room number "]
+        output(random.choice(prompts) + str(self.__roomNr) + ". ")
         for direction in self.__neighbours:
             self.senseTraps(direction)
 
@@ -75,13 +76,16 @@ class Room():
         neighbour = self.__neighbours[direction]
         if neighbour.__pit:
             play("draft")
-            output("You feel a light draft.")
+            prompts = ["You feel a light draft.", "The wind is howling through the tunnels.", "You feel a draft of air beneath your feet.", "A light draft lets you shiver."]
+            output(random.choice(prompts))
         elif neighbour.__bats:
             play("bats")
-            output("You hear bats.")
+            prompts = ["You hear bats.", "Bats are closeby.", "You can hear the wings of hundreds of bats.", "The sound of flapping bat wings reaches your ears."]
+            output(random.choice(prompts))
         elif neighbour.__wumpus:
             play("growl")
-            output("You smell Wumpus' foul breath!")
+            prompts = ["You hear Wumpus's angry growl", "Wumpus is close"]
+            output(random.choice(prompts))
 
     def trapCheck(self):
         """ checks if the room contains traps.
