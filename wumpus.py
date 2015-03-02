@@ -712,6 +712,8 @@ def record(validInputs):
             print("\"" + prediction["text"] + "\" (" + str(prediction["confidence"] * 100) + "%)")
     except LookupError:
         print("Could not understand audio")
+        say("Sorry, I didn't get that. Why don't you try again?", True)
+        record(validInputs)
 
     words = list(set(w))
     for v in validInputs:
