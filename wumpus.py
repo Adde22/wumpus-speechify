@@ -80,7 +80,7 @@ class Room():
             output(random.choice(prompts))
         elif neighbour.__bats:
             play("bats")
-            prompts = ["You hear bats.", "Bats are closeby.", "You can hear the wings of hundreds of bats.", "The sound of flapping bat wings reaches your ears."]
+            prompts = ["You hear bats.", "Bats are close by.", "You can hear the wings of hundreds of bats.", "The sound of flapping bat wings reaches your ears."]
             output(random.choice(prompts))
         elif neighbour.__wumpus:
             play("growl")
@@ -302,6 +302,7 @@ class Game():
                 output("\nThe arrow has power for " + str(3 - counter) + " more rooms.")
             counter += 1
             direction = self.inputDirection("shoot")
+            print("Direction: " + str(direction))
             arrowRoom = arrowRoom.getNeighbour(direction)
 
         if arrowRoom == self.__currentRoom:
@@ -536,6 +537,7 @@ class TestGame():
                 output("\nThe arrow has power for " + str(3 - counter) + " more rooms.")
             counter += 1
             direction = self.inputDirection("shoot")
+            print("Direction: " + str(direction))
             arrowRoom = arrowRoom.getNeighbour(direction)
 
         if arrowRoom == self.__currentRoom:
@@ -693,10 +695,15 @@ def output(text):
 
 def recognize(message, validInputs):
     say(message, True)
-    return record(validInputs)
+    recognized = record(message, validInputs)
+    while recognized == None:
+        say("Sorry, I didn't get that.", True)
+        say(message, True)
+        recognized = record(message, validInputs)
+    return recognized
     #return getUserInput(message, validInputs)
 
-def record(validInputs):
+def record(message, validInputs):
     r = sr.Recognizer()
     with sr.Microphone() as source:
         #print("Listening...")
@@ -712,16 +719,18 @@ def record(validInputs):
             #print("\"" + prediction["text"] + "\" (" + str(prediction["confidence"] * 100) + "%)")
     except LookupError:
         #print("Could not understand audio")
-        say("Sorry, I didn't get that. Why don't you try again?", True)
-        record(validInputs)
+        say("Sorry, I didn't get that.", True)
+        say(message, True);
+        record(message, validInputs)
 
     words = list(set(w))
     for v in validInputs:
         buzzlist = buzzwords[v]
         for b in buzzlist:
             if b in words:
-                #print("User input: " + v)
+                print("User input: " + v)
                 return v
+
 
 def strip(text):
     # prepare text for speech output
