@@ -699,19 +699,19 @@ def recognize(message, validInputs):
 def record(validInputs):
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening...")
+        #print("Listening...")
         audio = r.listen(source)
     w = []
     try:
         l = r.recognize(audio,True)
-        print("Done. Possible utterances:")
+        #print("Done. Possible utterances:")
         for prediction in l:
             utterance = prediction["text"].split()
             for word in utterance:
                 w.append(word)
-            print("\"" + prediction["text"] + "\" (" + str(prediction["confidence"] * 100) + "%)")
+            #print("\"" + prediction["text"] + "\" (" + str(prediction["confidence"] * 100) + "%)")
     except LookupError:
-        print("Could not understand audio")
+        #print("Could not understand audio")
         say("Sorry, I didn't get that. Why don't you try again?", True)
         record(validInputs)
 
@@ -720,7 +720,7 @@ def record(validInputs):
         buzzlist = buzzwords[v]
         for b in buzzlist:
             if b in words:
-                print("User input: " + v)
+                #print("User input: " + v)
                 return v
 
 def strip(text):
