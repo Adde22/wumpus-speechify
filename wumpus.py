@@ -134,11 +134,10 @@ class Player():
 class Game():
     """ represents a full game. Calls all the necessary methods in the right order upon instantiation. """
 
-    def __init__(self, firstTime):
+    def __init__(self):
         """ creates a Game-object.
     CHANGES running. """
         self.__running = True
-        self.__firstTime = firstTime
         self.__firstArrow = True
         self.__directionCounter = 0
         self.__createRooms()
@@ -247,12 +246,12 @@ class Game():
         if movementType == "move":
             prompts = ["Where would you like to go?,,", "Which direction do you want to go?,,", "Which path do you want to take?,,", "Which way do you want to go?,,", "Where do you want to go?,,", ]
             prompt = random.choice(prompts)
-            if self.__directionCounter < 3 and self.__firstTime:
+            if self.__directionCounter < 5:
                 prompt += "\nEast, west, north or south?"
         elif movementType == "shoot":
             prompts = ["Which way should the arrow fly?,,", "Which direction do you want to shoot in?,,", "Which way do you want to turn your bow?,,", "Which direction would you like to shoot in?,,", "Which way would you like to turn your bow?,,"]
             prompt = random.choice(prompts)
-            if self.__directionCounter < 3 and self.__firstTime:
+            if self.__directionCounter < 5:
                 prompt += "\nEast, west, north or south?"
 
         self.__directionCounter += 1
@@ -288,7 +287,7 @@ class Game():
 
     def shootArrow(self):
         """ lets the user shoot an arrow. """
-        if self.__firstArrow and self.__firstTime:
+        if self.__firstArrow:
             output("Arrows can fly through at most 3 rooms and you can change their direction after\n"
                     "every room. But be careful not to accidentally shoot yourself,,\n")
             self.__firstArrow = False
@@ -414,11 +413,10 @@ class Game():
 class TestGame():
     """ represents a test game without random elements. Calls all the necessary methods in the right order upon instantiation. """
 
-    def __init__(self, firstTime):
+    def __init__(self):
         """ creates a TestGame-object.
     CHANGES running. """
         self.__running = True
-        self.__firstTime = firstTime
         self.__firstArrow = True
         self.__directionCounter = 0
         self.__createRooms()
@@ -480,13 +478,13 @@ class TestGame():
             prompts = ["Where would you like to go?,,", "Which direction do you want to go?,,", "Which path do you want to take?,,", "Which way do you want to go?,,", "Where do you want to go?,,", ]
             prompt = random.choice(prompts)
             sound = "steps"
-            if self.__directionCounter < 3 and self.__firstTime:
+            if self.__directionCounter < 5:
                 prompt += "\nEast, west, north or south?"
         elif movementType == "shoot":
             prompts = ["Which way should the arrow fly?,,", "Which direction do you want to shoot in?,,", "Which way do you want to turn your bow?,,", "Which direction would you like to shoot in?,,", "Which way would you like to turn your bow?,,"]
             prompt = random.choice(prompts)
             sound = "arrow"
-            if self.__directionCounter < 3 and self.__firstTime:
+            if self.__directionCounter < 5:
                 prompt += "\nEast, west, north or south?"
 
         self.__directionCounter += 1
@@ -523,7 +521,7 @@ class TestGame():
 
     def shootArrow(self):
         """ lets the user shoot an arrow. """
-        if self.__firstArrow and self.__firstTime:
+        if self.__firstArrow:
             output("Arrows can fly through at most 3 rooms and you can change their direction after\n"
                     "every room. But be careful not to accidentally shoot yourself,,\n")
             self.__firstArrow = False
@@ -721,7 +719,7 @@ def record(message, validInputs):
         #print("Could not understand audio")
         say("Sorry, I didn't get that.", True)
         say(message, True);
-        record(message, validInputs)
+        return record(message, validInputs)
 
     words = list(set(w))
     for v in validInputs:
@@ -730,6 +728,8 @@ def record(message, validInputs):
             if b in words:
                 print("User input: " + v)
                 return v
+
+
 
 
 def strip(text):
@@ -797,11 +797,11 @@ def main():
                     showInstructions()
             else:
                 showInstructions()
-            newGame = Game(firstTime)
+            newGame = Game()
             newGame.runGame()
 
         elif userInput == "test":
-            newGame = TestGame(firstTime)
+            newGame = TestGame()
             newGame.runGame()
 
         elif userInput == "exit":
