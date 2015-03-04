@@ -668,7 +668,7 @@ def showInstructions():
     """ outputs information about the game's story and how to play. """
     output("-----------------------------------------------------\n\n"
           "You are in the tunnels beneath KTH where the greedy monster Wumpus dwells.\n"
-          "The tunnels are made up of 20 rooms that are connected by narrow passageways.\n"
+          "The tunnels are connected by narrow passageways.\n"
           "You can move around in the maze,,\n"
           "However, there are traps lurking around every corner. Some rooms contain\n"
           "bottomless pits, that will swallow you up. Others are home to bats, which will\n"
@@ -679,7 +679,7 @@ def showInstructions():
           "\n"
           "To win the game, you have to shoot Wumpus with your bow and arrows.\n"
           "You have 5 arrows. Good luck!,,\n"
-          "If you ever are unsure what to do, you can ask for help.")  
+          "If you are unsure what to do at any time, you can ask for help.")  
 
 
 
@@ -736,6 +736,7 @@ def strip(text):
     # prepare text for speech output
     text = text.replace("-", "")
     text = text.replace("~", "")
+    text = text.replace("bow", "boah")
     return text
 
 def say(text, blocking=False):
