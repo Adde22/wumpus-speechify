@@ -694,8 +694,9 @@ def output(text):
 def recognize(message, validInputs):
     say(message, True)
     recognized = record(message, validInputs)
+    prompts = ["Sorry, I didn't get that.", "Unfortunately, I didn't understand that.", "Sorry, I'm having trouble understanding you."]            
     while recognized == None:
-        say("Sorry, I didn't get that.", True)
+        say(random.choice(prompts), True)
         say(message, True)
         recognized = record(message, validInputs)
     return recognized
@@ -717,7 +718,7 @@ def record(message, validInputs):
             #print("\"" + prediction["text"] + "\" (" + str(prediction["confidence"] * 100) + "%)")
     except LookupError:
         #print("Could not understand audio")
-        say("Sorry, I didn't get that.", True)
+        say("I did not hear you, please speak up.", True)
         say(message, True);
         return record(message, validInputs)
 
